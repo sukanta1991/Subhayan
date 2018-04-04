@@ -125,3 +125,61 @@ DueDate DATE NOT NULL,
 HasReturned Bit NOT NULL,
 Condition Varchar(15)
 )
+
+create table Price(
+ID int IDENTITY(1,1) PRIMARY KEY,
+[Amount] Float NOT NULL,
+[Duration] Int NOT NULL,
+[Currency] VARCHAR NOT NULL,
+[LocationId] Int FOREIGN KEY references Location(ID),
+[CountryId] Int FOREIGN KEY references Country(ID)
+)
+
+create table Offer(
+ID int IDENTITY(1,1) PRIMARY KEY,
+[MTypeID] Int FOREIGN KEY references MembershipType(ID),
+[PriceID] Int FOREIGN KEY references Price(ID),
+[DESC] VARCHAR(150),
+[StartDate] DateTime NOT NULL,
+[EndTime] DateTime NOT NULL
+)
+
+
+create table Coupon(
+ID int IDENTITY(1,1) PRIMARY KEY,
+[Code] VARCHAR(20) NOT NULL UNIQUE,
+[MTypeID] Int FOREIGN KEY references MembershipType(ID),
+[PriceID] Int FOREIGN KEY references Price(ID),
+[DESC] VARCHAR(150),
+[StartDate] DateTime NOT NULL,
+[EndTime] DateTime NOT NULL,
+[IsBulk] Bit,
+[IsValid] Bit)
+
+create table Membership(
+ID int IDENTITY(1,1) PRIMARY KEY,
+[UserID] Int FOREIGN KEY references User(ID),
+[MTypeID] Int FOREIGN KEY references MembershipType(ID),
+[StartDate] DateTime NOT NULL,
+[EndTime] DateTime NOT NULL,
+[IsRenewed] Bit NOT NULL
+)
+
+
+create table MembershipType(
+ID int IDENTITY(1,1) PRIMARY KEY,
+[Name] NOT NULL UNIQUE,
+[PriceID] Int FOREIGN KEY references Price(ID),
+[DESC] VARCHAR(100)
+)
+
+create table Fine(
+ID int IDENTITY(1,1) PRIMARY KEY,
+[UserID] Int FOREIGN KEY references User(ID),
+[DueID] Int FOREIGN KEY references Dues(ID),
+[Amount] FLOAT NOT NULL,
+[IsPaid] Bit NOT NULL,
+[DueOn] Date NOT NULL,
+[DESC] VARCHAR(150)
+)
+
