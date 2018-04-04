@@ -183,3 +183,22 @@ ID int IDENTITY(1,1) PRIMARY KEY,
 [DESC] VARCHAR(150)
 )
 
+create table ServiceRequest(
+ID int IDENTITY(1,1) PRIMARY KEY,
+[UserID] Int FOREIGN KEY references User(ID),
+[LBID] Int FOREIGN KEY references LibraryBook(ID),
+[Status] VARCHAR(25) NOT NULL,
+[Agent] VARCHAR(50) NOT NULL,
+[TranID] Int FOREIGN KEY references Transactions(ID),
+)
+
+
+create table Payment(
+ID int IDENTITY(1,1) PRIMARY KEY,
+[FineID] Int FOREIGN KEY references Fine(ID),
+[PriceID] Int FOREIGN KEY references Price(ID),
+[TransID] Int FOREIGN KEY references Transactions(ID),
+[PayeeName] VARCHAR(50) NOT NULL UNIQUE,
+[Status] VARCHAR(20) NOT NULL,
+[PTime] DateTime
+)
